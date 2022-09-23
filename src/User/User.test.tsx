@@ -1,0 +1,34 @@
+import React from 'react';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import User from './User';
+
+const apiResponse = {
+  results: [
+    {
+      email: 'email',
+      phone: '123',
+      name: { last: 'Meneses', first: 'Catalina' },
+      picture: { thumbnail: 'img' },
+    },
+  ],
+};
+
+test('should render a loading text when there is no user', () => {
+  render(<User />);
+  const loadingElement = screen.getByTestId('loading');
+
+  expect(loadingElement.textContent).toBe('Loading...');
+});
+
+test('should render the firstName when the user is loaded', async () => {
+  const mockRes = { json: jest.fn().mockResolvedValueOnce(apiResponse) };
+  const mockedFetch = jest.fn().mockResolvedValueOnce(mockRes as any);
+  (global as any).fetch = mockedFetch;
+
+  render(<User />);
+
+  await waitFor(() => {
+    const nameElement = screen.getByTestId('firstName');
+    expect(nameElement.textContent).toBe('Catalina');
+  });
+});
