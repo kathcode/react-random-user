@@ -4,7 +4,7 @@ import User from './User/User';
 function App() {
   return (
     <div className="App">
-      <h1>Random User</h1>
+      <h2>Random User</h2>
       <User />
     </div>
   );

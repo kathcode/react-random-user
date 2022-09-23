@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import User from './User';
 
 const apiResponse = {
@@ -8,7 +8,7 @@ const apiResponse = {
       email: 'email',
       phone: '123',
       name: { last: 'Meneses', first: 'Catalina' },
-      picture: { thumbnail: 'img' },
+      picture: { large: 'img' },
     },
   ],
 };

@@ -5,11 +5,7 @@ interface IUser {
   last: string;
   email: string;
   phone: string;
-  image: IUserImage;
-}
-
-interface IUserImage {
-  thumbnail: string;
+  image: string;
 }
 
 export default function User() {
@@ -25,9 +21,9 @@ export default function User() {
       email,
       phone,
       name: { last, first },
-      picture: { thumbnail },
+      picture: { large },
     } = randomUser;
-    setUser({ first, last, email, phone, image: thumbnail });
+    setUser({ first, last, email, phone, image: large });
     setLoading(false);
   };
 
@@ -39,8 +35,15 @@ export default function User() {
       {loading ? (
         <p data-testid="loading">Loading...</p>
       ) : (
-        <h1 data-testid="firstName">{user?.first}</h1>
+        <section>
+          <img src={user?.image} alt="User" />
+          <h1 data-testid="firstName">{user?.first}</h1>
+          <p data-testid="lastName">{user?.last}</p>
+          <p>{user?.phone}</p>
+          <p>{user?.email}</p>
+        </section>
       )}
+      <button onClick={getUser}>Get new user</button>
     </div>
   );
 }
