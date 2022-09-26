@@ -13,13 +13,6 @@ const apiResponse = {
   ],
 };
 
-test('should render a loading text when there is no user', () => {
-  render(<User />);
-  const loadingElement = screen.getByTestId('loading');
-
-  expect(loadingElement.textContent).toBe('Loading...');
-});
-
 test('should render the firstName when the user is loaded', async () => {
   const mockRes = { json: jest.fn().mockResolvedValueOnce(apiResponse) };
   const mockedFetch = jest.fn().mockResolvedValueOnce(mockRes as any);

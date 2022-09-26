@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react';
-
-interface IUser {
-  first: string;
-  last: string;
-  email: string;
-  phone: string;
-  image: string;
-}
+import { IUser } from './interfaces';
+import UserCard from './UserCard/UserCard';
 
 export default function User() {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
   const getUser = async () => {
+    setLoading(true);
     const data = await fetch('https://randomuser.me/api/');
     const {
       results: [randomUser],
@@ -23,7 +18,7 @@ export default function User() {
       name: { last, first },
       picture: { large },
     } = randomUser;
-    setUser({ first, last, email, phone, image: large });
+    setUser({ firstName: first, lastName: last, email, phone, image: large });
     setLoading(false);
   };
 
@@ -32,18 +27,7 @@ export default function User() {
   }, []);
   return (
     <div>
-      {loading ? (
-        <p data-testid="loading">Loading...</p>
-      ) : (
-        <section>
-          <img src={user?.image} alt="User" />
-          <h1 data-testid="firstName">{user?.first}</h1>
-          <p data-testid="lastName">{user?.last}</p>
-          <p>{user?.phone}</p>
-          <p>{user?.email}</p>
-        </section>
-      )}
-      <button onClick={getUser}>Get new user</button>
+      {user && <UserCard user={user} getUser={getUser} isLoading={loading} />}
     </div>
   );
 }
